@@ -1,12 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "Ammunition.h"
+#include "Components/StaticMeshComponent.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
-#include "Ammunition.h"
-
 #include "Weapon.generated.h"
 
 UCLASS()
@@ -18,7 +17,7 @@ public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
-	void Shoot();
+	void Shoot(FVector _direction);
 	void Reload();
 	void Aim();
 
@@ -27,6 +26,7 @@ public:
 	float ammoCount;
 
 	AAmmunition* ammoType;
+	UPROPERTY(EditAnywhere, Category = "Weapon") UStaticMeshComponent* weaponMesh;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,5 +35,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+private:
 
 };
