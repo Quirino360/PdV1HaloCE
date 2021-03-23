@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
 #pragma once
 #include "Ammunition.h"
 #include "Components/StaticMeshComponent.h"
@@ -13,6 +14,7 @@ class HALOCE_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 	
+
 public:	
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -28,6 +30,9 @@ public:
 	AAmmunition* ammoType;
 	UPROPERTY(EditAnywhere, Category = "Weapon") UStaticMeshComponent* weaponMesh;
 
+private:
+	FVector tempVec = FVector(0, 0, 0);
+		
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,6 +40,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
 	
 private:
 

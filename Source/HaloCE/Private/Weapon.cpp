@@ -18,29 +18,27 @@ AWeapon::AWeapon()
 	}
 
 	ammoType = CreateDefaultSubobject<AAmmunition>(TEXT("BulletActor"));
-
+	
 }
 
 void AWeapon::Shoot(FVector _direction)
 {
-	FVector location(0, 0, 0);
-	FRotator rotation(0, 0, 0);
-	FActorSpawnParameters spawnInfo;
-
-	GetWorld()->SpawnActor<AAmmunition>(weaponMesh->GetComponentLocation() + FVector(10,10,10), rotation, spawnInfo);
+	GetWorld()->SpawnActor<AAmmunition>(weaponMesh->GetComponentLocation() + FVector(10,0,10) + _direction, FRotator::ZeroRotator, FActorSpawnParameters());
 }
 
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	Shoot(FVector(0, 0, 0));
+	//Shoot(tempVec);
 }
 
 // Called every frame
 void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//tempVec += FVector(1, 0, 0);
+	//Shoot(tempVec);
 
 }
 

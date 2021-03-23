@@ -17,11 +17,33 @@ AMasterChief_cpp::AMasterChief_cpp()
 	camera->AttachTo(RootComponent);
 	//camera->SetRelativeLocation(FVector(0, 0, 0));
 
-	primaryWeapon = CreateDefaultSubobject<AWeapon>(TEXT("WeaponActor"));
-	//primaryWeapon->Attach
+	primaryWeapon = CreateDefaultSubobject<UcppWeapon>(TEXT("Weapon"));
+	primaryWeapon->AttachTo(camera);
+
+	primaryWeapon->weaponMesh->AttachTo(camera);
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> aux(TEXT("/Game/Meshes/Weapons/UNSC/MagnumMesh.MagnumMesh"));
+	if (aux.Succeeded())
+	{
+		primaryWeapon->weaponMesh->SetStaticMesh(aux.Object);
+	}
+
+	//FAttachmentTransformRules attachmentRules(EAttachmentRule::KeepRelative, true);
+	//primaryWeapon = CreateDefaultSubobject<UWeapon_cpp>(TEXT("WeaponActor"));
+	//primaryWeapon->AttachTo(RootComponent);
+	//primaryWeapon->AttachToActor(this, attachmentRules, FName(TEXT("Weapon")));
+	//primaryWeapon->AttachToComponent(RootComponent, attachmentRules, FName(TEXT("Weapon")));
+	//primaryWeapon->weaponMesh->AttachTo(RootComponent);
+	//Children.Add(primaryWeapon);
+
 
 	jumping = false;
 	shooting = false;
+
+	maxHealth = 100;
+	health = 100;
+	maxShield = 100;
+	shield = 100;
+
 }
 
 // Called when the game starts or when spawned
@@ -42,8 +64,10 @@ void AMasterChief_cpp::Tick(float DeltaTime)
 	}
 	if (shooting)
 	{
-		primaryWeapon->Shoot(FVector(0, 0, 0));
+d		primaryWeapon->Shoot(FVector(0, 0, 0));
 	}
+	
+
 }
 
 // Called to bind functionality to input
@@ -61,9 +85,11 @@ void AMasterChief_cpp::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	InputComponent->BindAction("Jump", IE_Released, this, &AMasterChief_cpp::CheckJump); // When is jumpumping, jumping = false 		
 
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &AMasterChief_cpp::CheckShoot);
-	InputComponent->BindAction("Shoot", IE_Pressed, this, &AMasterChief_cpp::CheckShoot);
+	InputComponent->BindAction("Shoot", IE_Released, this, &AMasterChief_cpp::CheckShoot);
 
 }
+
+
 
 void AMasterChief_cpp::HorizontalMove(float value)
 {
@@ -117,6 +143,7 @@ void AMasterChief_cpp::CheckJump()
 
 void AMasterChief_cpp::CheckShoot()
 {
+
 	if (shooting)
 	{
 		shooting = false;
@@ -125,6 +152,9 @@ void AMasterChief_cpp::CheckShoot()
 	else
 	{
 		shooting = true;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TEXT("ShootingFalse")));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TEXT("ShootingTrue")));
 	}
+	
 }
+
+
